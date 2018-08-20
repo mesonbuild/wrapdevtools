@@ -28,7 +28,7 @@ To start off I run:
    wrapdev-newwrap https://github.com/glfw/glfw/releases/download/3.2.1/glfw-3.2.1.zip glfw
 
 This will create a subprojects directory (within the current working
-directory), download the referenced file to packagecache, extract it,
+directory), download the referenced file to the packagecache, extract it,
 and then generate a subprojects/glfw.wrap for it. This wrap file will
 become the contents of upstream.wrap on wrapdb
 
