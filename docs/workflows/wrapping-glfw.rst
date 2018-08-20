@@ -14,6 +14,7 @@ Create The Wrap file
 First make a new directory to work in:
 
 ::
+   
    mkdir glfw-wrapping
    cd glfw-wrapping
 
@@ -25,6 +26,7 @@ version (3.2.1 as of writing) is
 To start off I run:
 
 ::
+   
    wrapdev-newwrap https://github.com/glfw/glfw/releases/download/3.2.1/glfw-3.2.1.zip glfw
 
 This will create a subprojects directory (within the current working
@@ -138,7 +140,9 @@ Next I use ``wrapdev-extractpatch`` to copy my build files over to a directory s
 4. Copies the wrapfile to ``<output directory>/upstream.wrap``
 
 for GLFW I would use
+
 ::
+   
    wrapdev-extractpatch subprojects/glfw.wrap --output glfw-patch
 
 I get a patch filetree in the glfw-patch directory
