@@ -72,7 +72,7 @@ def main():
 
     # this here is a race
     cache_cts = set(packagecache_path.iterdir())
-    subprocess.run(['curl', '-O', '-J', args.url], cwd=packagecache_path)
+    subprocess.run(['curl', '-L', '-O', '-J', args.url], cwd=packagecache_path)
     new_cache_cts = set(packagecache_path.iterdir())
     downloaded_items = new_cache_cts - cache_cts
     if len(downloaded_items) != 1:

@@ -21,18 +21,26 @@
 """extractpatch.
 
 Extract changes to an upstream into a patch directory. For now this
-works with file (tarball) based wraps only """
+works with file (tarball) based wraps only. Additionally this tool
+will copy the wrap file to upstream.wrap in the destination
+directory
+
+"""
 
 import argparse
 from pathlib import Path
 import configparser
 import tempfile
 import shutil
+import filecmp
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('wrapfile',
                     help='wrap file to extract a patch from')
 
+parser.add_argument('--output',
+                    help='directory in which to output patch',
+                    required=True)
 
 def main():
     args = parser.parse_args()
@@ -42,14 +50,37 @@ def main():
     if not wrapfile_path.is_file():
         raise AssertionError("Wrap file is not a file")
     wrap = configparser.ConfigParser()
-    wrap.read_file(wrapfile_path)
+    wrap.read_string(wrapfile_path.read_text())
     subprojects_dir = wrapfile_path.parent
+    output_dir = Path(args.output)
+    output_dir.mkdir(exist_ok=True)
+    packagecache_path = subprojects_dir / 'packagecache'
     project_directory = subprojects_dir / wrap['wrap-file']['directory']
-    if not project_directory.existsp():
+    package_upstream_path = packagecache_path / wrap['wrap-file']['source_filename']
+    if not project_directory.exists():
         raise AssertionError("Wrap file output directory does not exist")
-
-    extract_dir = tempfile.TemporaryDirectory()
-
-
+    if not package_upstream_path.is_file():
+        raise AssertionError("Wrap upstream tarball does not exist")
+    flist = []
+    with tempfile.TemporaryDirectory() as extract_dir:
+        shutil.unpack_archive(str(package_upstream_path), extract_dir)
+        dcmps = [filecmp.dircmp(Path(extract_dir) / wrap['wrap-file']['directory'], project_directory)]
+        while len(dcmps) > 0:
+            dcmp = dcmps.pop()
+            for f in dcmp.right_only:
+                fullpath = Path(dcmp.right) / f
+                flist.append(fullpath.relative_to(project_directory))
+            dcmps += list(dcmp.subdirs.values())
+    print("copying changed files to output directory")
+    for file in flist:
+        src_file = project_directory/file
+        tgt_file = output_dir/file
+        tgt_file.parent.mkdir(exist_ok=True)
+        print("copying {} to {}".format(str(src_file), str(tgt_file)))
+        shutil.copy(str(src_file), str(tgt_file))
+    upstream_wrap_path = output_dir / "upstream.wrap"
+    print("copying {} to {}".format(str(wrapfile_path), str(upstream_wrap_path)))
+    shutil.copy(str(wrapfile_path), str(upstream_wrap_path))
+        
 if __name__ == "__main__":
     main()
