@@ -32,6 +32,8 @@ import shutil
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('wrapfile',
                     help='wrap file to extract a patch from')
+
+
 def main():
     args = parser.parse_args()
     wrapfile_path = Path(args.wrapfile)
@@ -47,7 +49,7 @@ def main():
         raise AssertionError("Wrap file output directory does not exist")
 
     extract_dir = tempfile.TemporaryDirectory()
-    
+
 
 if __name__ == "__main__":
     main()
