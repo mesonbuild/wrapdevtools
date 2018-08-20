@@ -26,6 +26,8 @@ works with file (tarball) based wraps only """
 import argparse
 from pathlib import Path
 import configparser
+import tempfile
+import shutil
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('wrapfile',
@@ -43,6 +45,8 @@ def main():
     project_directory = subprojects_dir / wrap['wrap-file']['directory']
     if not project_directory.existsp():
         raise AssertionError("Wrap file output directory does not exist")
+
+    extract_dir = tempfile.TemporaryDirectory()
     
 
 if __name__ == "__main__":
