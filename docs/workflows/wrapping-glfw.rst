@@ -40,7 +40,7 @@ Writing the meson build files
 
 Next I go through and read the native build files to find what goes
 into the targets I want, usually it's a list of sources + some config
-dependeny sources. In the case of glfw the list of sources is quite
+dependent sources. In the case of glfw the list of sources is quite
 small, so I'll just write them out myself. However for a larger
 library I could use ``wrapdev-listsrc`` to help generate parts of my meson build file
 
@@ -55,12 +55,12 @@ When I'm done I get the following meson.build file
 
 
 	glfw_core_src = files(
-	'src/context.c',
-	'src/init.c',
-	'src/input.c',
-	'src/monitor.c',
-	'src/vulkan.c',
-	'src/window.c'
+	    'src/context.c',
+	    'src/init.c',
+	    'src/input.c',
+	    'src/monitor.c',
+	    'src/vulkan.c',
+	    'src/window.c'
 	)
 	glfw_platform_src = []
 	glfw_deps = []
@@ -68,31 +68,31 @@ When I'm done I get the following meson.build file
 	glfw_deps += cc.find_library('dl', required: false)
 	glfw_deps += dependency('threads')
 	if get_option('windowing_backend') == 'x11'
-	x11_dep = dependency('x11')
-	xrandr_dep = dependency('xrandr')
-	xinerama_dep = dependency('xinerama')
-	xkb_dep = dependency('xkbcommon')
-	xcursor_dep = dependency('xcursor')
-	glfw_deps += [x11_dep, xrandr_dep, xinerama_dep, xkb_dep, xcursor_dep]
-	glfw_platform_src += files(
-	    'src/x11_init.c',
-	    'src/x11_monitor.c',
-	    'src/x11_window.c',
-	    'src/xkb_unicode.c',
-	    'src/linux_joystick.c',
-	    'src/posix_time.c',
-	    'src/posix_tls.c',
-	    'src/glx_context.c',
-	    'src/egl_context.c'
-	)
+	    x11_dep = dependency('x11')
+	    xrandr_dep = dependency('xrandr')
+	    xinerama_dep = dependency('xinerama')
+	    xkb_dep = dependency('xkbcommon')
+	    xcursor_dep = dependency('xcursor')
+	    glfw_deps += [x11_dep, xrandr_dep, xinerama_dep, xkb_dep, xcursor_dep]
+	    glfw_platform_src += files(
+		'src/x11_init.c',
+		'src/x11_monitor.c',
+		'src/x11_window.c',
+		'src/xkb_unicode.c',
+		'src/linux_joystick.c',
+		'src/posix_time.c',
+		'src/posix_tls.c',
+		'src/glx_context.c',
+		'src/egl_context.c'
+	    )
 
 	else
-	error('backend not supported')
+	   error('backend not supported')
 	endif
 
 	conf_data = configuration_data()
 	if get_option('windowing_backend') == 'x11'
-	conf_data.set('_GLFW_X11', 1)
+	    conf_data.set('_GLFW_X11', 1)
 	endif
 	conf_file = configure_file(configuration: conf_data, output: 'glfw_config.h')
 
@@ -103,8 +103,8 @@ When I'm done I get the following meson.build file
 			c_args: ['-D_GLFW_USE_CONFIG_H'])
 
 	glfw_dep = declare_dependency(
-	include_directories: include_directories('src'),
-	link_with: glfw_lib)
+	    include_directories: include_directories('src'),
+	    link_with: glfw_lib)
 
 and the following meson_options.txt file
 
