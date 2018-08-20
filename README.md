@@ -1,6 +1,6 @@
 # wrapdevtools
 
-![docs](https://readthedocs.org/projects/wrapdevtools/badge/?version=latest)
+[![docs](https://readthedocs.org/projects/wrapdevtools/badge/?version=latest)](http://wrapdevtools.rtfd.io/)
 
 Effort to maintain tools for maintaining meson wraps
 
