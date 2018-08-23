@@ -10,6 +10,7 @@ Welcome to Wrap Dev Tools's documentation!
    :maxdepth: 2
 
    workflows/wrapping-glfw
+   legal_information
 	      
 Programs
 ========
