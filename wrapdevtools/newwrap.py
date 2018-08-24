@@ -39,6 +39,8 @@ import argparse
 import subprocess
 import hashlib
 import shutil
+import sys
+
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--wrapdev-tree',
                     help='Project tree. Should be the root of a meson project',
@@ -58,8 +60,8 @@ source_hash={source_hash}
 """
 
 
-def main():
-    args = parser.parse_args()
+def main(args = None):
+    args = parser.parse_args(args)
     wrapdev_path = Path(args.wrapdev_tree)
     subprojects_path = wrapdev_path / "subprojects"
     packagecache_path = subprojects_path / "packagecache"

@@ -43,8 +43,8 @@ parser.add_argument('--output',
                     help='directory in which to output patch',
                     required=True)
 
-def main():
-    args = parser.parse_args()
+def main(args = None):
+    args = parser.parse_args(args)
     wrapfile_path = Path(args.wrapfile)
     if not wrapfile_path.exists():
         raise AssertionError("Wrap file does not exist")

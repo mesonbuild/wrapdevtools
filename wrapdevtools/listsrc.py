@@ -24,13 +24,14 @@ pasting into a meson build file"""
 
 import argparse
 from pathlib import Path
+import sys
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('pattern', help='the glob pattern to search for')
 
 
-def main():
-    args = parser.parse_args()
+def main(args = None):
+    args = parser.parse_args(args)
     files = Path.cwd().glob(args.pattern)
     output = ""
     for file in files:
