@@ -17,8 +17,6 @@
 # SPDX-License-Identifier: Apache-2.0
 
 
-
-
 """extractpatch.
 
 Extract changes to an upstream into a patch directory. For now this
@@ -43,7 +41,8 @@ parser.add_argument('--output',
                     help='directory in which to output patch',
                     required=True)
 
-def main(args = None):
+
+def main(args=None):
     args = parser.parse_args(args)
     wrapfile_path = Path(args.wrapfile)
     if not wrapfile_path.exists():
@@ -59,7 +58,7 @@ def main(args = None):
     project_directory = subprojects_dir / wrap['wrap-file']['directory']
     package_upstream_path = packagecache_path / wrap['wrap-file']['source_filename']
     if not project_directory.exists():
-        raise AssertionError("Wrap file output directory does not exist")
+        raise AssertionError("Wrap file project directory does not exist")
     if not package_upstream_path.is_file():
         raise AssertionError("Wrap upstream tarball does not exist")
     flist = []
@@ -74,14 +73,15 @@ def main(args = None):
             dcmps += list(dcmp.subdirs.values())
     print("copying changed files to output directory")
     for file in flist:
-        src_file = project_directory/file
-        tgt_file = output_dir/file
+        src_file = project_directory / file
+        tgt_file = output_dir / file
         tgt_file.parent.mkdir(exist_ok=True)
         print("copying {} to {}".format(str(src_file), str(tgt_file)))
         shutil.copy(str(src_file), str(tgt_file))
     upstream_wrap_path = output_dir / "upstream.wrap"
     print("copying {} to {}".format(str(wrapfile_path), str(upstream_wrap_path)))
     shutil.copy(str(wrapfile_path), str(upstream_wrap_path))
-        
+
+
 if __name__ == "__main__":
     main()

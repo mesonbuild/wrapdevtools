@@ -1,0 +1,6 @@
+# not a valid wrapfile, just for testing tooling
+[wrap-file]
+directory=simple
+source_url=none
+source_filename=simple.zip
+source_hash=5c11dd0576aa8f73e58427e292fd674dd2441b8a308a40479c95fd73a86bcb2b

@@ -60,7 +60,7 @@ source_hash={source_hash}
 """
 
 
-def main(args = None):
+def main(args=None):
     args = parser.parse_args(args)
     wrapdev_path = Path(args.wrapdev_tree)
     subprojects_path = wrapdev_path / "subprojects"
@@ -97,7 +97,7 @@ def main(args = None):
                                     source_hash=source_hash)
     print("writing wrapfile: {}".format(str(wrap_file_path)))
     wrap_file_path.write_text(wrap_file_str)
-    
+
 
 if __name__ == "__main__":
     main()
