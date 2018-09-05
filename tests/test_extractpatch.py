@@ -37,4 +37,17 @@ def test_no_changes(simple_project_extracted, tmpdir):
     assert (output / 'upstream.wrap').exists()
     assert (output / 'upstream.wrap').isfile()
 
+def test_layout_directoryname(simple_project_extracted, tmpdir):
+    output = tmpdir.mkdir('output')
+    wrapfile = simple_project_extracted / 'subprojects' / 'simple.wrap'
+    args = [
+        '--output', str(output),
+        '--layout', 'directoryname',
+        str(wrapfile)
+    ]
+    extractpatch.main(args)
+    assert (output / 'simple' / 'upstream.wrap').exists()
+    assert (output / 'simple' / 'upstream.wrap').isfile()
+    assert not (output / 'upstream.wrap').exists()
+
 

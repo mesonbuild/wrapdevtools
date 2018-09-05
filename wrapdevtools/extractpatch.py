@@ -41,6 +41,13 @@ parser.add_argument('--output',
                     help='directory in which to output patch',
                     required=True)
 
+parser.add_argument('--layout',
+                    choices=['flat', 'directoryname'],
+                    help='How to output the patch, flat simply outputs files in the output directory, \
+                        whereas directoryname will create a directory named as the directory the wrap extracts to',
+                    required=False,
+                    default='flat')
+
 
 def main(args=None):
     args = parser.parse_args(args)
@@ -53,10 +60,13 @@ def main(args=None):
     wrap.read_string(wrapfile_path.read_text())
     subprojects_dir = wrapfile_path.parent
     output_dir = Path(args.output)
-    output_dir.mkdir(exist_ok=True)
+    if args.layout == 'directoryname':
+        output_dir /= wrap['wrap-file']['directory']
+    output_dir.mkdir(exist_ok=True, parents=True)
     packagecache_path = subprojects_dir / 'packagecache'
     project_directory = subprojects_dir / wrap['wrap-file']['directory']
-    package_upstream_path = packagecache_path / wrap['wrap-file']['source_filename']
+    package_upstream_path = packagecache_path / \
+        wrap['wrap-file']['source_filename']
     if not project_directory.exists():
         raise AssertionError("Wrap file project directory does not exist")
     if not package_upstream_path.is_file():
@@ -64,7 +74,8 @@ def main(args=None):
     flist = []
     with tempfile.TemporaryDirectory() as extract_dir:
         shutil.unpack_archive(str(package_upstream_path), extract_dir)
-        dcmps = [filecmp.dircmp(Path(extract_dir) / wrap['wrap-file']['directory'], project_directory)]
+        dcmps = [filecmp.dircmp(
+            Path(extract_dir) / wrap['wrap-file']['directory'], project_directory)]
         while len(dcmps) > 0:
             dcmp = dcmps.pop()
             for f in dcmp.right_only:
