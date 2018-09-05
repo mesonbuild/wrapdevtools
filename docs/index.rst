@@ -27,6 +27,8 @@ Programs
 .. autoprogram:: wrapdevtools.tocmake:parser
         :prog: wrapdev-tocmake
 
+.. autoprogram:: wrapdevtools.gentestproj:parser
+        :prog: wrapdev-gentestproj
 
 Indices and tables
 ==================
