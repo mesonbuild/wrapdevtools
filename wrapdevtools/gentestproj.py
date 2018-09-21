@@ -30,11 +30,13 @@ source code and apply the patch.
 import argparse
 from pathlib import Path
 import shutil
+import configparser
+import logging
 
 parser = argparse.ArgumentParser(description=__doc__)
 
 parser.add_argument('wrap',
-    help='path to either a wrap patch directory or a wrap patch archive')
+    help='path to a wrap patch directory (with an upstream.wrap)')
 
 parser.add_argument('--output',
     help="Output project directory, created if it doesn't exist",
@@ -50,3 +52,12 @@ def main(args=None):
     wrap_path = Path(args.wrap)
     output_path = Path(args.output)
     output_path.mkdir(exist_ok=False)
+
+    upstream_wrap = wrap_path / 'upstream.wrap'
+
+    if not upstream_wrap.is_file():
+        raise AssertionError("upstream.wrap file does not exist")
+    
+    
+    
+
