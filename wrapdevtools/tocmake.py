@@ -26,7 +26,7 @@ and to ease transition.
 
 Note: This will not do anything with the patch files, it's assumed
 that either the upstream uses cmake or you will edit the
-resulting cmake code to do your own patcher.
+resulting cmake code to do your own patch handling.
 """
 
 import argparse
