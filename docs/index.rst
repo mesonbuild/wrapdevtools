@@ -24,6 +24,9 @@ Programs
 .. autoprogram:: wrapdevtools.listsrc:parser
 		 :prog: wrapdev-listsrc
 
+.. autoprogram:: wrapdevtools.tocmake:parser
+        :prog: wrapdev-tocmake
+
 
 Indices and tables
 ==================
